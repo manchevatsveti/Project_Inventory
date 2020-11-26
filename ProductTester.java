@@ -3,10 +3,9 @@ package inventory;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ProductTester {
+public class ProjectTester {
 
 	public static void main(String[] args) {
-		//create a Scanner object for keyboard input
 		Scanner in = new Scanner(System.in);
 		int menuChoice;
 		
@@ -45,7 +44,7 @@ public class ProductTester {
 		int productChoice;
 		productChoice=getProductNumber(products, in);
 		System.out.println("Type true to activate.");
-		System.out.println("Type false to deactivate.");
+		System.out.println("Type false to discontinue.");
 		boolean active = in.nextBoolean();
 		products[productChoice].setActive(active);
 	}
@@ -53,9 +52,9 @@ public class ProductTester {
 		int productChoice;
 		int updateValue=-1;
 		productChoice=getProductNumber(products, in);
-		System.out.println("How many products do you want to add?");
+		System.out.println("How many products do you want deduct?");
 		updateValue=in.nextInt();
-		while(updateValue<0 || updateValue>products.length) {
+		while(updateValue<0 || updateValue>products[productChoice].getQtyInStock()) {
 			System.out.println("Please enter a valid value.");
 			updateValue=in.nextInt();
 		}
@@ -77,9 +76,9 @@ public class ProductTester {
 	}
 	public static int getProductNumber(Product[]products,Scanner in) {
 		int productChoice=-1;
+
 		for(int i=0;i<products.length;i++) {
-			System.out.println("Index: "+ i);
-			System.out.println("Name: "+ products[i].getName());
+			System.out.println(i+ ": " + products[i].getName());
 		}
 		System.out.println("Enter product index");
 		productChoice=in.nextInt();
@@ -108,24 +107,82 @@ public class ProductTester {
 	        	System.out.println(product);
 	}
 	public static void addToInventory(Product[]products,Scanner in) {
+		int stockChoice = -1;
+	
+	        for(int i = 0; i<products.length; i++) {
+	        	System.out.println("1: CD");
+	    		System.out.println("2: DVD");
+	    		System.out.println("Please enter the product type: ");
+	    		stockChoice=in.nextInt();
+	        		
+	    		while(stockChoice!=1 & stockChoice!=2) {
+	    			System.out.println("Only numbers 1 or 2 allowed!");
+	    			stockChoice=in.nextInt();
+	    		}	
+	    	switch (stockChoice) {
+			case 1:
+				addCDToInventory(products, in, i);
+				break;
+			case 2:
+				addDVDToInventory(products, in, i);
+				}
+	        }
+	}
+	public static void addCDToInventory(Product[]products,Scanner in,int i) {
 		int tempNumber;
 		String tempName;
 		int tempQty;
 		double tempPrice;
+		String tempArtist;
+		int tempSongs;
+		String tempLabel;
 	
-	        for(int i = 0; i<products.length; i++) {
+	       
 	        	in.nextLine();
-	    		System.out.print("\n\nPlease enter the product name: ");
+	    		System.out.print("\nPlease enter the CD name: ");
 	    		tempName = in.nextLine();
+	    		System.out.print("Please enter the artist name: ");
+	    		tempArtist=in.next();
+	    		System.out.print("Please enter the record label name: ");
+	    		tempLabel=in.next();
+	    		System.out.print("Please enter the number of songs: ");
+	    		tempSongs=in.nextInt();
 	    		System.out.print("Please enter the quantity of stock for this product: ");
 	    		tempQty = in.nextInt();
 	    		System.out.print("Please enter the price for this product: ");
 	    		tempPrice = in.nextDouble();
 	    		System.out.print("Please enter the item number: ");
 	    		tempNumber = in.nextInt();
-	    		products[i] = new Product(tempNumber, tempName, tempQty, tempPrice);
+	    		products[i] = new CD(tempNumber, tempName, tempQty, tempPrice,tempArtist,tempSongs, tempLabel);
 	        	
 	}
+	public static void addDVDToInventory(Product[]products,Scanner in,int i) {
+		int tempNumber;
+		String tempName;
+		int tempQty;
+		String tempStudio;
+		int tempAgeRating;
+		int tempLenght;
+		double tempPrice;
+	
+	      
+	        	in.nextLine();
+	    		System.out.print("\nPlease enter the DVD name: ");
+	    		tempName = in.nextLine();
+	    		System.out.print("Please enter the film studio name: ");
+	    		tempStudio=in.next();
+	    		System.out.print("Please enter the age rating: ");
+	    		tempAgeRating=in.nextInt();
+	    		System.out.print("Please enter the lenght in minutes: ");
+	    		tempLenght=in.nextInt();
+	    		System.out.print("Please enter the quantity of stock for this product: ");
+	    		tempQty = in.nextInt();
+	    		System.out.print("Please enter the price for this product: ");
+	    		tempPrice = in.nextDouble();
+	    		System.out.print("Please enter the item number: ");
+	    		tempNumber = in.nextInt();
+	    		products[i] = new DVD(tempNumber, tempName,tempQty, tempPrice,tempLenght,tempAgeRating, tempStudio);
+	        	
 	}
 	public static int getNumProducts(Scanner in) {
 		int maxSize=-1;
@@ -151,4 +208,5 @@ public class ProductTester {
 	}
 
 	
-}//end class ProductTaster
+}
+
