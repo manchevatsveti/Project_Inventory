@@ -1,9 +1,7 @@
-package inventory;
-
 public class Product {
 	private int itemNumber;		
     private String name;		
-    private int qtyInStock;		//quantity in stock
+    private int qtyInStock;		
     private double price;		
     private boolean active = true; 
     
@@ -20,7 +18,12 @@ public class Product {
       this.price = price;
     }
 	public void addToInventory(int quantity) {
+		if(active) {
 		qtyInStock+=quantity;
+		}
+		else {
+			System.out.println("This product is discontinued, you could not add stock to it.");
+		}
 	}
 	public void deductFromInventory(int quantity) {
 		qtyInStock-=quantity;
@@ -82,5 +85,6 @@ public class Product {
 	}
 
 }
+
 
 
